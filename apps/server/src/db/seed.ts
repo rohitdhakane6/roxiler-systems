@@ -2,19 +2,19 @@ import "dotenv/config";
 import { db } from "@/db";
 import { users, stores, ratings } from "@/db/schema";
 import { hashPassword } from "@/lib/auth";
-import { eq } from "drizzle-orm";
 
 async function main() {
   console.log("Seeding database...");
 
   // Clear existing data (optional, be careful in real environments)
-  // await db.delete(ratings);
-  // await db.delete(stores);
-  // await db.delete(users);
+  await db.delete(ratings);
+  await db.delete(stores);
+  await db.delete(users);
+
+  // Hash password once for all users
+  const password = await hashPassword("User@123");
 
   // Create Admins (2 admins)
-  const admin1Password = await hashPassword("Admin@123");
-  const admin2Password = await hashPassword("Admin@456");
   const insertedAdmins = await db
     .insert(users)
     .values([
@@ -22,14 +22,14 @@ async function main() {
         name: "System Administrator User",
         email: "admin@example.com",
         address: "100 Admin Way, Tech City",
-        passwordHash: admin1Password,
+        passwordHash: password,
         role: "ADMIN",
       },
       {
         name: "Senior System Administrator",
         email: "admin2@example.com",
         address: "200 Admin Plaza, Tech City",
-        passwordHash: admin2Password,
+        passwordHash: password,
         role: "ADMIN",
       },
     ])
@@ -37,13 +37,6 @@ async function main() {
     .returning();
 
   // Create Store Owners (5 store owners)
-  const ownerPasswords = await Promise.all([
-    hashPassword("Owner@123"),
-    hashPassword("Owner@456"),
-    hashPassword("Owner@789"),
-    hashPassword("Owner@101"),
-    hashPassword("Owner@112"),
-  ]);
 
   const insertedOwners = await db
     .insert(users)
@@ -52,35 +45,35 @@ async function main() {
         name: "First Store Owner User Name",
         email: "owner1@example.com",
         address: "12 Baker Street, Gotham",
-        passwordHash: ownerPasswords[0],
+        passwordHash: password,
         role: "STORE_OWNER",
       },
       {
         name: "Second Store Owner Full Name",
         email: "owner2@example.com",
         address: "34 Elm Avenue, Metropolis",
-        passwordHash: ownerPasswords[1],
+        passwordHash: password,
         role: "STORE_OWNER",
       },
       {
         name: "Third Store Owner Business",
         email: "owner3@example.com",
         address: "56 Oak Street, Star City",
-        passwordHash: ownerPasswords[2],
+        passwordHash: password,
         role: "STORE_OWNER",
       },
       {
         name: "Fourth Store Owner Enterprise",
         email: "owner4@example.com",
         address: "78 Pine Avenue, Coast City",
-        passwordHash: ownerPasswords[3],
+        passwordHash: password,
         role: "STORE_OWNER",
       },
       {
         name: "Fifth Store Owner Corporation",
         email: "owner5@example.com",
         address: "90 Maple Drive, Keystone City",
-        passwordHash: ownerPasswords[4],
+        passwordHash: password,
         role: "STORE_OWNER",
       },
     ])
@@ -88,16 +81,6 @@ async function main() {
     .returning();
 
   // Create Normal Users (8 regular users)
-  const userPasswords = await Promise.all([
-    hashPassword("User@1234"),
-    hashPassword("User@5678"),
-    hashPassword("User@9012"),
-    hashPassword("User@3456"),
-    hashPassword("User@7890"),
-    hashPassword("User@2345"),
-    hashPassword("User@6789"),
-    hashPassword("User@0123"),
-  ]);
 
   const insertedUsers = await db
     .insert(users)
@@ -106,56 +89,56 @@ async function main() {
         name: "Regular Platform User One",
         email: "user1@example.com",
         address: "221B Baker Street, London",
-        passwordHash: userPasswords[0],
+        passwordHash: password,
         role: "USER",
       },
       {
         name: "Another Regular User Two",
         email: "user2@example.com",
         address: "742 Evergreen Terrace, Springfield",
-        passwordHash: userPasswords[1],
+        passwordHash: password,
         role: "USER",
       },
       {
         name: "Third Regular User Name",
         email: "user3@example.com",
         address: "123 Main Street, Anytown",
-        passwordHash: userPasswords[2],
+        passwordHash: password,
         role: "USER",
       },
       {
         name: "Fourth Platform User Name",
         email: "user4@example.com",
         address: "456 Second Avenue, Somewhere",
-        passwordHash: userPasswords[3],
+        passwordHash: password,
         role: "USER",
       },
       {
         name: "Fifth Application User Name",
         email: "user5@example.com",
         address: "789 Third Boulevard, Nowhere",
-        passwordHash: userPasswords[4],
+        passwordHash: password,
         role: "USER",
       },
       {
         name: "Sixth System User Name",
         email: "user6@example.com",
         address: "101 Fourth Street, Everywhere",
-        passwordHash: userPasswords[5],
+        passwordHash: password,
         role: "USER",
       },
       {
         name: "Seventh Customer User Name",
         email: "user7@example.com",
         address: "202 Fifth Avenue, Downtown",
-        passwordHash: userPasswords[6],
+        passwordHash: password,
         role: "USER",
       },
       {
         name: "Eighth Client User Name",
         email: "user8@example.com",
         address: "303 Sixth Street, Uptown",
-        passwordHash: userPasswords[7],
+        passwordHash: password,
         role: "USER",
       },
     ])
