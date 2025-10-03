@@ -12,7 +12,6 @@ export function useAdminDashboard() {
       }
       return res.data.data || [];
     },
-    staleTime: 1000 * 60 * 5,
   });
 }
 
@@ -27,7 +26,6 @@ export function useAdminUsers() {
       }
       return res.data.data?.users || [];
     },
-    staleTime: 1000 * 60 * 5,
   });
 }
 
@@ -71,7 +69,6 @@ export function useAdminStores() {
       }
       return res.data.data.stores || [];
     },
-    staleTime: 1000 * 60 * 5,
   });
 }
 

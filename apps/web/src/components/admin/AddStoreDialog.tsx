@@ -32,8 +32,9 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import { Plus, Store } from "lucide-react";
+import { Plus, Store, Building2, MapPin, User } from "lucide-react";
 
 interface AddStoreDialogProps {
   children?: React.ReactNode;
@@ -137,15 +138,24 @@ export default function AddStoreDialog({ children }: AddStoreDialogProps) {
         </DialogHeader>
 
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
             <FormField
               control={form.control}
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Store Name</FormLabel>
+                  <FormLabel className="text-sm font-medium">
+                    Store Name
+                  </FormLabel>
                   <FormControl>
-                    <Input placeholder="Enter store name" {...field} />
+                    <div className="relative">
+                      <Building2 className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                      <Input
+                        placeholder="Enter store name"
+                        className="pl-10"
+                        {...field}
+                      />
+                    </div>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -157,9 +167,16 @@ export default function AddStoreDialog({ children }: AddStoreDialogProps) {
               name="address"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Address</FormLabel>
+                  <FormLabel className="text-sm font-medium">Address</FormLabel>
                   <FormControl>
-                    <Input placeholder="Enter store address" {...field} />
+                    <div className="relative">
+                      <MapPin className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                      <Textarea
+                        placeholder="Enter store address"
+                        className="pl-10 min-h-[80px] resize-none"
+                        {...field}
+                      />
+                    </div>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -171,15 +188,20 @@ export default function AddStoreDialog({ children }: AddStoreDialogProps) {
               name="ownerEmailId"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Store Owner</FormLabel>
+                  <FormLabel className="text-sm font-medium">
+                    Store Owner
+                  </FormLabel>
                   <Select
                     onValueChange={field.onChange}
                     defaultValue={field.value}
                   >
                     <FormControl>
-                      <SelectTrigger className="w-full">
-                        <SelectValue placeholder="Select a store owner" />
-                      </SelectTrigger>
+                      <div className="relative">
+                        <User className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                        <SelectTrigger className="w-full pl-10">
+                          <SelectValue placeholder="Select a store owner" />
+                        </SelectTrigger>
+                      </div>
                     </FormControl>
                     <SelectContent>
                       {availableStoreOwners.length === 0 ? (
@@ -207,25 +229,50 @@ export default function AddStoreDialog({ children }: AddStoreDialogProps) {
             />
 
             {formError && (
-              <div className="text-sm text-red-600 bg-red-50 border border-red-200 rounded-md p-3">
-                {formError}
+              <div className="rounded-md bg-red-50 border border-red-200 p-3 text-sm text-red-800">
+                <div className="flex items-center">
+                  <div className="flex-shrink-0">
+                    <svg
+                      className="h-4 w-4 text-red-400"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                  </div>
+                  <div className="ml-2">{formError}</div>
+                </div>
               </div>
             )}
 
-            <DialogFooter>
+            <DialogFooter className="flex gap-3">
               <Button
                 type="button"
                 variant="outline"
                 onClick={() => setOpen(false)}
                 disabled={isPending}
+                className="flex-1"
               >
                 Cancel
               </Button>
               <Button
                 type="submit"
                 disabled={isPending || availableStoreOwners.length === 0}
+                className="flex-1"
+                size="lg"
               >
-                {isPending ? "Creating..." : "Create Store"}
+                {isPending ? (
+                  <div className="flex items-center">
+                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                    Creating...
+                  </div>
+                ) : (
+                  "Create Store"
+                )}
               </Button>
             </DialogFooter>
           </form>

@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { authApi, type AuthData } from "@/utils/api";
+import { api, type AuthData } from "@/utils/api";
 
 type LoginPayload = { email: string; password: string };
 type SignupPayload = {
@@ -31,22 +31,26 @@ export function useLogin() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async (data: LoginPayload): Promise<AuthData> => {
-      const res = await authApi.login(data);
-      if (!res.data?.success) {
-        const msg =
-          res.data?.error?.message || res.data?.message || "Login failed";
-        throw new Error(msg);
+    mutationFn: async (data: LoginPayload) => {
+      try {
+        const res = await api.post("/auth/login", data);
+        const { token, user } = res.data.data!;
+        localStorage.setItem("token", token);
+        localStorage.setItem("user", JSON.stringify(user));
+        return res.data.data!;
+      } catch (error: any) {
+        if (error.response?.data?.error?.message) {
+          throw new Error(error.response.data.error.message);
+        } else {
+          throw new Error("Login failed. Please try again.");
+        }
       }
-      const { token, user } = res.data.data!;
-      localStorage.setItem("token", token);
-      localStorage.setItem("user", JSON.stringify(user));
-      return res.data.data!;
     },
     onSuccess: () => {
-      // Invalidate and refetch any cached data after login
       queryClient.invalidateQueries();
     },
+    // Add this to prevent automatic retries on error
+    retry: false,
   });
 }
 
@@ -55,16 +59,19 @@ export function useSignup() {
 
   return useMutation({
     mutationFn: async (data: SignupPayload): Promise<AuthData> => {
-      const res = await authApi.signup(data);
-      if (!res.data?.success) {
-        const msg =
-          res.data?.error?.message || res.data?.message || "Signup failed";
-        throw new Error(msg);
+      try {
+        const res = await api.post("/auth/signup", data);
+        const { token, user } = res.data.data!;
+        localStorage.setItem("token", token);
+        localStorage.setItem("user", JSON.stringify(user));
+        return res.data.data!;
+      } catch (error: any) {
+        if (error.response?.data?.error?.message) {
+          throw new Error(error.response.data.error.message);
+        } else {
+          throw new Error("Signup failed. Please try again.");
+        }
       }
-      const { token, user } = res.data.data!;
-      localStorage.setItem("token", token);
-      localStorage.setItem("user", JSON.stringify(user));
-      return res.data.data!;
     },
     onSuccess: () => {
       // Invalidate and refetch any cached data after signup
@@ -76,7 +83,7 @@ export function useSignup() {
 export function useUpdatePassword() {
   return useMutation({
     mutationFn: async (data: UpdatePasswordPayload) => {
-      const res = await authApi.updatePassword(data);
+      const res = await api.post("/auth/update-password", data);
       if (!res.data?.success) {
         const msg =
           res.data?.error?.message ||
