@@ -12,5 +12,5 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
-  base: "https://roxiler-systems-web.vercel.app",
+  base: "/",
 });
