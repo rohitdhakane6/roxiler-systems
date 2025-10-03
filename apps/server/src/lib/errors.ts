@@ -20,7 +20,7 @@ export class AppError extends Error {
 export const Errors = {
   UNAUTHORIZED: new AppError({
     message: "Authentication required",
-    statusCode: 401,
+    statusCode: 403,
   }),
   INTERNAL_SERVER_ERROR: new AppError({
     message: "Internal server error",
