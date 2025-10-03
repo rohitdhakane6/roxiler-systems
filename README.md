@@ -4,7 +4,7 @@ A comprehensive multi-role management system built with modern web technologies.
 
 ## 🌐 Live Demo
 
-[**View Live Application**](https://roxiler-systems-web.vercel.app) - Experience the full application with all features
+[**[View Live Application](https://roxiler-systems-web.vercel.app)**](https://roxiler-systems-web.vercel.app) - Experience the full application with all features
 
 > **Note**: The backend is hosted on Render and may take a moment to boot up on first access. Please be patient if the initial load takes a few seconds.
 
