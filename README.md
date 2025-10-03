@@ -1,70 +1,215 @@
-# roxiler-systems
+# Roxiler Systems
 
-This project was created with [Better-T-Stack](https://github.com/AmanVarshney01/create-better-t-stack), a modern TypeScript stack that combines React, React Router, Express, and more.
+A comprehensive multi-role management system built with modern web technologies. This project provides role-based access control for Admin, Store Owners, and Users with a complete store rating and management system.
 
-## Features
+## 🚀 Features
 
-- **TypeScript** - For type safety and improved developer experience
-- **React Router** - Declarative routing for React
-- **TailwindCSS** - Utility-first CSS for rapid UI development
-- **shadcn/ui** - Reusable UI components
-- **Express** - Fast, unopinionated web framework
-- **Bun** - Runtime environment
-- **Drizzle** - TypeScript-first ORM
-- **PostgreSQL** - Database engine
-- **Authentication** - Better-Auth
-- **Turborepo** - Optimized monorepo build system
+### Core Features
 
-## Getting Started
+- **Multi-Role Authentication System** - Admin, Store Owner, and User roles with different permissions
+- **Store Management** - Create, manage, and rate stores
+- **Rating System** - Users can rate stores with 1-5 star ratings
+- **Admin Dashboard** - Complete administrative control over users and stores
+- **Store Owner Dashboard** - Manage store details and view ratings
+- **User Dashboard** - Browse stores, rate them, and manage profile
 
-First, install the dependencies:
+### Technical Features
 
-```bash
-bun install
-```
-## Database Setup
+- **TypeScript** - Full type safety across frontend and backend
+- **Modern React** - React 19 with React Router for navigation
+- **TailwindCSS** - Utility-first CSS with custom design system
+- **shadcn/ui** - Beautiful, accessible UI components
+- **Express.js** - Fast, scalable backend API
+- **Drizzle ORM** - TypeScript-first database ORM
+- **PostgreSQL** - Robust relational database
+- **JWT Authentication** - Secure token-based authentication
+- **Form Validation** - Zod schema validation
+- **Monorepo Architecture** - Turborepo for optimized builds
+- **Bun Runtime** - Fast JavaScript runtime and package manager
 
-This project uses PostgreSQL with Drizzle ORM.
+## 🛠️ Local Setup
 
-1. Make sure you have a PostgreSQL database set up.
-2. Update your `apps/server/.env` file with your PostgreSQL connection details.
+### Prerequisites
 
-3. Apply the schema to your database:
-```bash
-bun db:push
-```
+- [Bun](https://bun.sh) (v1.2.22 or higher)
+- [PostgreSQL](https://www.postgresql.org) (v12 or higher)
+- Node.js (v18 or higher) - for compatibility
 
+### Installation
 
-Then, run the development server:
+1. **Clone the repository**
 
-```bash
-bun dev
-```
+   ```bash
+   git clone <repository-url>
+   cd roxiler-systems
+   ```
 
-Open [http://localhost:5173](http://localhost:5173) in your browser to see the web application.
-The API is running at [http://localhost:3000](http://localhost:3000).
+2. **Install dependencies**
 
+   ```bash
+   bun install
+   ```
 
+3. **Environment Setup**
 
+   Create a `.env` file in `apps/server/`:
 
+   ```env
+   DATABASE_URL="postgresql://username:password@localhost:5432/roxiler_systems"
+   JWT_SECRET="your-super-secret-jwt-key"
+   PORT=3000
+   ```
 
+4. **Database Setup**
 
+   ```bash
+   # Push schema to database
+   bun db:push
 
-## Project Structure
+   # Seed the database with initial data
+   bun db:seed
+   ```
+
+5. **Start Development Servers**
+
+   ```bash
+   # Start both frontend and backend
+   bun dev
+
+   # Or start individually
+   bun dev:web    # Frontend only (http://localhost:5173)
+   bun dev:server # Backend only (http://localhost:3000)
+   ```
+
+## 📁 Project Structure
 
 ```
 roxiler-systems/
 ├── apps/
-│   ├── web/         # Frontend application (React + React Router)
-│   └── server/      # Backend API (Express)
+│   ├── web/                    # Frontend React Application
+│   │   ├── src/
+│   │   │   ├── components/     # Reusable UI components
+│   │   │   │   ├── admin/      # Admin-specific components
+│   │   │   │   ├── owner/      # Store owner components
+│   │   │   │   ├── user/       # User-specific components
+│   │   │   │   ├── data-table/ # Data table components
+│   │   │   │   └── ui/         # Base UI components (shadcn/ui)
+│   │   │   ├── hooks/          # Custom React hooks
+│   │   │   ├── pages/          # Page components
+│   │   │   │   └── auth/       # Authentication pages
+│   │   │   ├── utils/          # Utility functions
+│   │   │   └── types/          # TypeScript type definitions
+│   │   └── package.json
+│   └── server/                 # Backend Express API
+│       ├── src/
+│       │   ├── controllers/    # Route controllers
+│       │   ├── db/            # Database configuration
+│       │   │   ├── schema/    # Drizzle schema definitions
+│       │   │   └── migrations/ # Database migrations
+│       │   ├── lib/           # Utility libraries
+│       │   ├── middleware/    # Express middleware
+│       │   ├── routers/       # API route definitions
+│       │   └── types/         # TypeScript type definitions
+│       └── package.json
+├── packages/
+│   └── common/                # Shared types and schemas
+│       ├── src/
+│       │   └── index.ts       # Shared Zod schemas and types
+│       └── package.json
+├── package.json              # Root package.json
+├── turbo.json               # Turborepo configuration
+└── README.md
 ```
 
-## Available Scripts
+## 🗄️ Database Schema
 
-- `bun dev`: Start all applications in development mode
-- `bun build`: Build all applications
-- `bun dev:web`: Start only the web application
-- `bun dev:server`: Start only the server
-- `bun check-types`: Check TypeScript types across all apps
-- `bun db:push`: Push schema changes to database
-- `bun db:studio`: Open database studio UI
+### Tables
+
+- **users** - User accounts with role-based access (ADMIN, USER, STORE_OWNER)
+- **stores** - Store information linked to store owners
+- **ratings** - User ratings for stores (1-5 stars, one rating per user per store)
+
+### Key Features
+
+- UUID primary keys for all tables
+- Foreign key constraints with cascade deletes
+- Unique constraints to prevent duplicate ratings
+- Timestamps for audit trails
+- Role-based access control
+
+## 🚀 Available Commands
+
+### Development
+
+```bash
+bun dev              # Start all applications in development mode
+bun dev:web          # Start only the frontend (port 5173)
+bun dev:server       # Start only the backend (port 3000)
+```
+
+### Building
+
+```bash
+bun build            # Build all applications for production
+bun check-types      # Type check all TypeScript files
+```
+
+### Database
+
+```bash
+bun db:push          # Push schema changes to database
+bun db:studio        # Open Drizzle Studio (database GUI)
+bun db:generate      # Generate new migration files
+bun db:migrate       # Run pending migrations
+bun db:seed          # Seed database with initial data
+```
+
+### Utilities
+
+```bash
+bun lint             # Lint all applications
+bun compile          # Compile server to binary (server only)
+```
+
+## 🔐 Authentication & Authorization
+
+### User Roles
+
+- **ADMIN**: Full system access, can manage users and stores
+- **STORE_OWNER**: Can manage their own store and view ratings
+- **USER**: Can browse stores, rate them, and manage their profile
+
+### Security Features
+
+- JWT-based authentication
+- Password hashing with bcrypt
+- Role-based route protection
+- Input validation with Zod schemas
+- CORS protection
+
+## 🌐 API Endpoints
+
+### Authentication
+
+- `POST /api/auth/login` - User login
+- `POST /api/auth/signup` - User registration
+- `POST /api/auth/logout` - User logout
+
+### Admin Routes
+
+- `GET /api/admin/users` - Get all users
+- `POST /api/admin/users` - Create new user
+- `GET /api/admin/stores` - Get all stores
+- `POST /api/admin/stores` - Create new store
+
+### Store Routes
+
+- `GET /api/stores` - Get all stores (with search)
+- `GET /api/stores/:id` - Get store details
+- `POST /api/stores/:id/rate` - Rate a store
+
+### User Routes
+
+- `GET /api/user/profile` - Get user profile
+- `PUT /api/user/profile` - Update user profile
+- `PUT /api/user/password` - Update password
