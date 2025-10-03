@@ -1,18 +1,22 @@
 {
-	"compilerOptions": {
-		"target": "ESNext",
-		"module": "ESNext",
-		"moduleResolution": "bundler",
-		"verbatimModuleSyntax": true,
-		"strict": true,
-		"skipLibCheck": true,
-		"baseUrl": "./",
-		"paths": {
-			"@/*": ["./src/*"]
-		},
-		"outDir": "./dist",
-		"types": ["bun"],
-		"composite": true,
-		"jsx": "react-jsx"
-	}
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "verbatimModuleSyntax": true,
+    "strict": true,
+    "skipLibCheck": true,
+    "baseUrl": "./",
+    "paths": {
+      "@/*": ["./src/*"],
+      "@repo/common": ["../../packages/common/src"],
+      "@repo/common/*": ["../../packages/common/src/*"]
+    },
+    "outDir": "./dist",
+    "types": ["bun"],
+    "composite": true,
+    "jsx": "react-jsx",
+    "rootDir": "../../"
+  },
+  "include": ["src", "../../packages/common/src"]
 }
