@@ -2,6 +2,36 @@
 
 A comprehensive multi-role management system built with modern web technologies. This project provides role-based access control for Admin, Store Owners, and Users with a complete store rating and management system.
 
+## 🌐 Live Demo
+
+[**View Live Application**](https://roxiler-systems-web.vercel.app) - Experience the full application with all features
+
+> **Note**: The backend is hosted on Render and may take a moment to boot up on first access. Please be patient if the initial load takes a few seconds.
+
+## 🔑 Test Credentials
+
+For testing purposes, you can use these pre-seeded accounts:
+
+### Admin Account
+
+- **Email**: `admin@example.com`
+- **Password**: `User@123`
+- **Access**: Full administrative control over users and stores
+
+### Store Owner Account
+
+- **Email**: `owner1@example.com`
+- **Password**: `User@123`
+- **Access**: Manage store details and view ratings
+
+### Regular User Account
+
+- **Email**: `user1@example.com`
+- **Password**: `User@123`
+- **Access**: Browse stores, rate them, and manage profile
+
+> **Note**: All seeded users use the same password `User@123` for easy testing.
+
 ## 🚀 Features
 
 ### Core Features
